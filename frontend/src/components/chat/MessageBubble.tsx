@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import type { IMessage } from '../../types/chat';
 import { useAuth } from '../../context/AuthContext';
+import { BACKEND_URL } from '../../config';
 
 interface MessageBubbleProps {
   message: IMessage;
@@ -237,13 +238,13 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, onMarkRea
         <div style={{ marginBottom: '8px', maxWidth: '100%', overflow: 'hidden', borderRadius: '8px' }}>
           {message.attachmentType === 'image' ? (
             <img
-              src={`http://localhost:5005${message.attachmentUrl}`}
+              src={`${BACKEND_URL}${message.attachmentUrl}`}
               alt={message.attachmentName || 'Attachment'}
               style={{ maxWidth: '100%', maxHeight: '300px', objectFit: 'contain', borderRadius: '8px' }}
             />
           ) : (
             <a
-              href={`http://localhost:5005${message.attachmentUrl}`}
+              href={`${BACKEND_URL}${message.attachmentUrl}`}
               target="_blank"
               rel="noopener noreferrer"
               style={{

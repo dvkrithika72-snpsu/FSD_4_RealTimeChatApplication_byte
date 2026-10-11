@@ -10,6 +10,7 @@ import { ForgotPassword } from './pages/ForgotPassword';
 import { ResetPassword } from './pages/ResetPassword';
 import { ProfileSetup } from './pages/ProfileSetup';
 import { GroupInvitePage } from './pages/GroupInvitePage';
+import { GOOGLE_CLIENT_ID } from './config';
 
 const ProtectedRoute = ({ children, requireSetup = true }: { children: React.ReactNode; requireSetup?: boolean }) => {
   const { user, loading } = useAuth();
@@ -56,10 +57,8 @@ const AppRoutes = () => {
 };
 
 const App = () => {
-  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || 'YOUR_CLIENT_ID_GOES_HERE.apps.googleusercontent.com';
-
   return (
-    <GoogleOAuthProvider clientId={googleClientId}>
+    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
       <AuthProvider>
         <BrowserRouter>
           <AppRoutes />

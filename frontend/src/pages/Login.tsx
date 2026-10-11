@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
+import { GOOGLE_CLIENT_ID } from '../config';
 
 export const Login: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -40,7 +41,10 @@ export const Login: React.FC = () => {
         navigate(redirectParam || (res.data.user.profileSetupComplete ? '/dashboard' : '/setup'));
       }
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Invalid email or password');
+      console.error('Login submit error:', err);
+      const errMsg = err.response?.data?.error || 
+        (err.message === 'Network Error' ? 'Connecting to server... If backend is asleep (Render free tier), please wait ~30 seconds and try again.' : 'Invalid email or password');
+      setError(errMsg);
     }
   };
 
@@ -64,8 +68,8 @@ export const Login: React.FC = () => {
   };
 
   const isGoogleConfigured = Boolean(
-    import.meta.env.VITE_GOOGLE_CLIENT_ID && 
-    !import.meta.env.VITE_GOOGLE_CLIENT_ID.includes('YOUR_CLIENT_ID')
+    GOOGLE_CLIENT_ID && 
+    !GOOGLE_CLIENT_ID.includes('YOUR_CLIENT_ID')
   );
 
   const handleGoogleLogin = useGoogleLogin({
@@ -77,7 +81,11 @@ export const Login: React.FC = () => {
         login(res.data.token, res.data.user);
         navigate(redirectParam || (res.data.user.profileSetupComplete ? '/dashboard' : '/setup'));
       } catch (err: any) {
-        setError(err.response?.data?.error || 'Google authentication failed');
+        console.error('Google auth error:', err);
+        const errMsg = err.response?.data?.error || 
+          (err.message === 'Network Error' ? 'Server is waking up (Render free tier). Please wait ~30 seconds and try again.' : err.message) || 
+          'Google authentication failed';
+        setError(errMsg);
       }
     },
     onError: () => {

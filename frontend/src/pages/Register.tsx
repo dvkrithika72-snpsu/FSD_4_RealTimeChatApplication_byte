@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
+import { GOOGLE_CLIENT_ID } from '../config';
 
 export const Register: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -54,8 +55,8 @@ export const Register: React.FC = () => {
   };
 
   const isGoogleConfigured = Boolean(
-    import.meta.env.VITE_GOOGLE_CLIENT_ID && 
-    !import.meta.env.VITE_GOOGLE_CLIENT_ID.includes('YOUR_CLIENT_ID')
+    GOOGLE_CLIENT_ID && 
+    !GOOGLE_CLIENT_ID.includes('YOUR_CLIENT_ID')
   );
 
   const handleGoogleLogin = useGoogleLogin({
@@ -67,7 +68,11 @@ export const Register: React.FC = () => {
         login(res.data.token, res.data.user);
         navigate(redirectParam || (res.data.user.profileSetupComplete ? '/dashboard' : '/setup'));
       } catch (err: any) {
-        setError(err.response?.data?.error || 'Google registration failed');
+        console.error('Google register error:', err);
+        const errMsg = err.response?.data?.error || 
+          (err.message === 'Network Error' ? 'Server is waking up (Render free tier). Please wait ~30 seconds and try again.' : err.message) || 
+          'Google registration failed';
+        setError(errMsg);
       }
     },
     onError: () => {
