@@ -323,3 +323,6 @@ To present NOVA during your internship evaluation, follow this sequence:
    - Register a 3rd account in another tab.
    - Show that the 3rd account sees 0 private messages, 0 group chats, and 0 scheduled meetings from Accounts A and B.
    - Log out of Account A and observe all private state reset cleanly.
+
+Live demo: https://fsd-4-real-time-chat-application-by-plum.vercel.app
+linkedin : https://www.linkedin.com/in/krithika-d-v-79b558335?utm_source=share_via&utm_content=profile&utm_medium=member_android
