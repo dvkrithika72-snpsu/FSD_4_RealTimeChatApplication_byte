@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Production build outputs
+dist/
+*/dist/
+
+# Environment secrets (Never commit secrets / credentials)
+.env
+*.env
+.env.local
+backend/.env
+frontend/.env
+
+# Uploads & Scratch directories
+uploads/
+backend/uploads/
+scratch/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS / Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
